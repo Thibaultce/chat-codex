@@ -45,6 +45,10 @@ const MessageInput = ({ onSend, disabled = false }: MessageInputProps) => {
   };
 
   const handleEmojiSelect = (emoji: string) => {
+    if (disabled) {
+      return;
+    }
+
     const input = inputRef.current;
     const { start, end } = selectionRef.current;
 

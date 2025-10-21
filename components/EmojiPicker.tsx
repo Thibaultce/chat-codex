@@ -97,7 +97,18 @@ const EmojiPicker = ({ onSelect, disabled = false }: EmojiPickerProps) => {
     setActiveCategory(categoryId);
   };
 
+  useEffect(() => {
+    if (disabled && isOpen) {
+      setIsOpen(false);
+    }
+  }, [disabled, isOpen]);
+
   const handleSelectEmoji = (emoji: string) => {
+    if (disabled) {
+      setIsOpen(false);
+      return;
+    }
+
     onSelect(emoji);
     setIsOpen(false);
   };
