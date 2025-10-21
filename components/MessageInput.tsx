@@ -61,7 +61,10 @@ const MessageInput = ({ onSend, disabled = false }: MessageInputProps) => {
     setMessage(nextMessage);
 
     requestAnimationFrame(() => {
-      if (!input) return;
+      if (!input || input.disabled) {
+        return;
+      }
+
       const cursorPosition = insertionStart + emoji.length;
       input.focus();
       input.setSelectionRange(cursorPosition, cursorPosition);
