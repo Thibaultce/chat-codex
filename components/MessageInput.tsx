@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type ChangeEvent, type FormEvent, type SyntheticEvent } from "react";
+import EmojiPicker from "./EmojiPicker";
 
 type MessageInputProps = {
   onSend: (message: string) => void;
@@ -9,6 +10,24 @@ type MessageInputProps = {
 
 const MessageInput = ({ onSend, disabled = false }: MessageInputProps) => {
   const [message, setMessage] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+  const selectionRef = useRef<{ start: number; end: number }>({ start: 0, end: 0 });
+
+  const updateSelection = (target: HTMLInputElement) => {
+    selectionRef.current = {
+      start: target.selectionStart ?? target.value.length,
+      end: target.selectionEnd ?? target.value.length,
+    };
+  };
+
+  const handleSelectionEvent = (event: SyntheticEvent<HTMLInputElement>) => {
+    updateSelection(event.currentTarget);
+  };
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setMessage(event.target.value);
+    updateSelection(event.target);
+  };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -17,6 +36,33 @@ const MessageInput = ({ onSend, disabled = false }: MessageInputProps) => {
 
     onSend(message.trim());
     setMessage("");
+    requestAnimationFrame(() => {
+      if (!inputRef.current) return;
+      inputRef.current.focus();
+      inputRef.current.setSelectionRange(0, 0);
+      selectionRef.current = { start: 0, end: 0 };
+    });
+  };
+
+  const handleEmojiSelect = (emoji: string) => {
+    const input = inputRef.current;
+    const { start, end } = selectionRef.current;
+
+    const insertionStart = Math.max(0, Math.min(start, message.length));
+    const insertionEnd = Math.max(insertionStart, Math.min(end, message.length));
+
+    const nextMessage =
+      message.slice(0, insertionStart) + emoji + message.slice(insertionEnd);
+
+    setMessage(nextMessage);
+
+    requestAnimationFrame(() => {
+      if (!input) return;
+      const cursorPosition = insertionStart + emoji.length;
+      input.focus();
+      input.setSelectionRange(cursorPosition, cursorPosition);
+      selectionRef.current = { start: cursorPosition, end: cursorPosition };
+    });
   };
 
   return (
@@ -26,19 +72,27 @@ const MessageInput = ({ onSend, disabled = false }: MessageInputProps) => {
     >
       <input
         type="text"
+        ref={inputRef}
         value={message}
-        onChange={(event) => setMessage(event.target.value)}
+        onChange={handleChange}
+        onSelect={handleSelectionEvent}
+        onKeyUp={handleSelectionEvent}
+        onClick={handleSelectionEvent}
+        onFocus={handleSelectionEvent}
         placeholder="Write a message..."
         className="flex-1 rounded-xl bg-transparent px-3 py-2 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-blue-500 dark:text-slate-100"
         disabled={disabled}
       />
-      <button
-        type="submit"
-        className="rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
-        disabled={disabled}
-      >
-        Send
-      </button>
+      <div className="flex items-center gap-2">
+        <EmojiPicker onSelect={handleEmojiSelect} disabled={disabled} />
+        <button
+          type="submit"
+          className="rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+          disabled={disabled}
+        >
+          Send
+        </button>
+      </div>
     </form>
   );
 };
