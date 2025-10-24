@@ -5,10 +5,12 @@ import type { ChatMessage, OutgoingChatMessage } from "@/types/chat";
 
 type ServerToClientEvents = {
   chat_message: (message: ChatMessage) => void;
+  chat_cleared: () => void;
 };
 
 type ClientToServerEvents = {
   chat_message: (message: OutgoingChatMessage) => void;
+  clear_chat: () => void;
 };
 
 const SOCKET_URL =
