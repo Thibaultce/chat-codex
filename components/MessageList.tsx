@@ -13,7 +13,7 @@ const formatTimestamp = (timestamp: string) =>
 
 const MessageList = ({ messages, currentUser }: MessageListProps) => {
   return (
-    <ul className="flex flex-col gap-3">
+    <ul className="flex flex-col gap-4">
       {messages.map((message) => {
         const isCurrentUser =
           message.user.toLowerCase() === currentUser.toLowerCase();
@@ -25,14 +25,14 @@ const MessageList = ({ messages, currentUser }: MessageListProps) => {
               isCurrentUser ? "items-end" : "items-start"
             }`}
           >
-            <span className="text-xs text-emerald-600 dark:text-emerald-300">
+            <span className="text-[0.7rem] uppercase tracking-[0.2em] text-cyan-200/60">
               {message.user} · {formatTimestamp(message.timestamp)}
             </span>
             <span
-              className={`rounded-2xl px-4 py-2 text-sm shadow-sm transition-colors ${
+              className={`max-w-full rounded-2xl px-4 py-2.5 text-sm shadow-lg ring-1 ring-inset transition-all ${
                 isCurrentUser
-                  ? "bg-emerald-600 text-white"
-                  : "bg-emerald-100 text-emerald-950 dark:bg-emerald-900 dark:text-emerald-100"
+                  ? "bg-gradient-to-r from-cyan-500/90 via-emerald-400/90 to-sky-500/90 text-slate-950 ring-white/10"
+                  : "bg-white/12 text-cyan-100 ring-white/8 backdrop-blur"
               }`}
             >
               {message.content}
@@ -41,7 +41,7 @@ const MessageList = ({ messages, currentUser }: MessageListProps) => {
         );
       })}
       {messages.length === 0 ? (
-        <li className="text-center text-sm text-emerald-600 dark:text-emerald-300">
+        <li className="text-center text-sm text-cyan-200/60">
           Start the conversation by sending a message.
         </li>
       ) : null}

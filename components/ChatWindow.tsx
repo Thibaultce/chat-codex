@@ -43,11 +43,11 @@ const ChatWindow = () => {
   const statusBadge = useMemo(() => {
     switch (status) {
       case "connected":
-        return "bg-green-500";
+        return "bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.85)]";
       case "disconnected":
-        return "bg-red-500";
+        return "bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.65)]";
       default:
-        return "bg-amber-500";
+        return "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.55)]";
     }
   }, [status]);
 
@@ -72,63 +72,73 @@ const ChatWindow = () => {
   };
 
   return (
-    <div className="flex h-full flex-col gap-6 rounded-3xl border border-emerald-200 bg-gradient-to-br from-white via-emerald-50 to-emerald-100 p-6 shadow-lg dark:border-emerald-800 dark:from-emerald-950 dark:via-emerald-950 dark:to-emerald-950">
-      <header className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-xl font-semibold text-emerald-950 dark:text-emerald-100">
-            Chat Demo
-          </h1>
-          <p className="text-sm text-emerald-700 dark:text-emerald-300">
-            Powered by Next.js, Express, and Socket.IO
-          </p>
-        </div>
-        <div className="flex flex-wrap items-center gap-3">
-          <button
-            type="button"
-            onClick={handleClear}
-            disabled={!messages.length || status !== "connected"}
-            className="rounded-2xl border border-emerald-200 bg-white/90 px-4 py-2 text-sm font-medium text-emerald-900 shadow-sm transition hover:bg-emerald-100 disabled:cursor-not-allowed disabled:opacity-60 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-100 dark:hover:bg-emerald-900"
-          >
-            Clear chat
-          </button>
-          <div className="flex items-center gap-2">
-            <span
-              className={`h-2.5 w-2.5 rounded-full ${statusBadge}`}
-              aria-hidden
-            />
-            <span className="text-sm font-medium capitalize text-emerald-700 dark:text-emerald-200">
-              {status}
-            </span>
+    <div className="relative overflow-hidden rounded-[32px] border border-cyan-400/25 bg-white/5 shadow-[0_24px_80px_-40px_rgba(34,211,238,0.9)] backdrop-blur-2xl">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.12),_transparent_60%),radial-gradient(circle_at_bottom,_rgba(192,132,252,0.14),_transparent_65%)]"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 rounded-[32px] border border-white/10 mix-blend-screen"
+      />
+      <div className="relative flex h-full flex-col gap-8 p-8">
+        <header className="flex flex-wrap items-center justify-between gap-6">
+          <div>
+            <h1 className="text-2xl font-semibold tracking-tight text-cyan-100">
+              Aurora Relay
+            </h1>
+            <p className="text-sm text-cyan-200/70">
+              Futuristic messaging powered by Next.js, Express, and Socket.IO
+            </p>
           </div>
+          <div className="flex flex-wrap items-center gap-4">
+            <button
+              type="button"
+              onClick={handleClear}
+              disabled={!messages.length || status !== "connected"}
+              className="rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-medium text-cyan-100 transition hover:border-cyan-300/50 hover:bg-cyan-400/20 disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-white/5 disabled:opacity-50"
+            >
+              Clear chat
+            </button>
+            <div className="flex items-center gap-2 rounded-full bg-white/5 px-4 py-2">
+              <span
+                className={`h-2.5 w-2.5 rounded-full ${statusBadge}`}
+                aria-hidden
+              />
+              <span className="text-sm font-medium capitalize text-cyan-100/80">
+                {status}
+              </span>
+            </div>
+          </div>
+        </header>
+
+        <div className="flex flex-col gap-3">
+          <label
+            htmlFor="username"
+            className="text-xs font-semibold uppercase tracking-[0.28em] text-cyan-200/60"
+          >
+            Display name
+          </label>
+          <input
+            id="username"
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+            onBlur={(event) => {
+              if (!event.target.value.trim()) {
+                setUsername(createFallbackUsername());
+              }
+            }}
+            className="rounded-2xl border border-white/15 bg-white/10 px-4 py-2.5 text-sm text-cyan-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] outline-none transition placeholder:text-cyan-100/40 focus:border-cyan-300 focus:ring-2 focus:ring-cyan-400/60"
+            placeholder="Choose a callsign"
+          />
         </div>
-      </header>
 
-      <div className="flex flex-col gap-4">
-        <label
-          htmlFor="username"
-          className="text-sm font-medium text-emerald-700 dark:text-emerald-300"
-        >
-          Display name
-        </label>
-        <input
-          id="username"
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
-          onBlur={(event) => {
-            if (!event.target.value.trim()) {
-              setUsername(createFallbackUsername());
-            }
-          }}
-          className="rounded-2xl border border-emerald-200 bg-white/90 px-4 py-2 text-sm text-emerald-900 shadow-sm outline-none focus:ring-2 focus:ring-emerald-500 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-100"
-          placeholder="Enter your display name"
-        />
+        <section className="flex-1 overflow-y-auto rounded-[26px] border border-white/10 bg-slate-950/40 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+          <MessageList messages={messages} currentUser={username} />
+        </section>
+
+        <MessageInput onSend={handleSend} disabled={status !== "connected"} />
       </div>
-
-      <section className="flex-1 overflow-y-auto rounded-3xl border border-emerald-200 bg-emerald-50/80 p-4 shadow-inner dark:border-emerald-800 dark:bg-emerald-950/70">
-        <MessageList messages={messages} currentUser={username} />
-      </section>
-
-      <MessageInput onSend={handleSend} disabled={status !== "connected"} />
     </div>
   );
 };
