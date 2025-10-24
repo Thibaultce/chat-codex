@@ -75,7 +75,7 @@ const MessageInput = ({ onSend, disabled = false }: MessageInputProps) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-2 shadow-sm dark:border-emerald-800 dark:bg-emerald-950"
+      className="flex items-center gap-3 rounded-[24px] border border-white/12 bg-white/10 p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl"
     >
       <input
         type="text"
@@ -87,14 +87,14 @@ const MessageInput = ({ onSend, disabled = false }: MessageInputProps) => {
         onClick={handleSelectionEvent}
         onFocus={handleSelectionEvent}
         placeholder="Write a message..."
-        className="flex-1 rounded-xl bg-transparent px-3 py-2 text-sm text-emerald-900 outline-none focus:ring-2 focus:ring-emerald-500 dark:text-emerald-100"
+        className="flex-1 rounded-xl bg-transparent px-3 py-2 text-sm text-cyan-50 placeholder:text-cyan-100/40 outline-none transition focus:ring-2 focus:ring-cyan-400/60 disabled:opacity-50"
         disabled={disabled}
       />
       <div className="flex items-center gap-2">
         <EmojiPicker onSelect={handleEmojiSelect} disabled={disabled} />
         <button
           type="submit"
-          className="rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-full bg-gradient-to-r from-cyan-500 via-emerald-400 to-sky-500 px-5 py-2 text-sm font-semibold text-slate-950 shadow-[0_12px_30px_-16px_rgba(34,211,238,0.9)] transition hover:from-cyan-400 hover:via-emerald-300 hover:to-sky-400 disabled:cursor-not-allowed disabled:from-white/20 disabled:via-white/20 disabled:to-white/20 disabled:text-white/60 disabled:shadow-none"
           disabled={disabled}
         >
           Send
