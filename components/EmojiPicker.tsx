@@ -123,7 +123,7 @@ const EmojiPicker = ({ onSelect, disabled = false }: EmojiPickerProps) => {
         aria-expanded={isOpen}
         aria-label="Open emoji picker"
         disabled={disabled}
-        className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 transition hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"
+        className="flex h-10 w-10 items-center justify-center rounded-full border border-emerald-200 bg-emerald-50 text-emerald-600 transition hover:bg-emerald-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 disabled:cursor-not-allowed disabled:opacity-50 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-200 dark:hover:bg-emerald-900"
       >
         <EmojiIcon className="h-5 w-5" />
       </button>
@@ -132,7 +132,7 @@ const EmojiPicker = ({ onSelect, disabled = false }: EmojiPickerProps) => {
         <div
           role="dialog"
           aria-label="Emoji picker"
-          className="absolute right-0 z-50 mt-2 w-72 rounded-2xl border border-slate-200 bg-white p-3 shadow-lg outline-none dark:border-slate-700 dark:bg-slate-900"
+          className="absolute right-0 z-50 mt-2 w-72 rounded-2xl border border-emerald-200 bg-emerald-50 p-3 shadow-lg outline-none dark:border-emerald-800 dark:bg-emerald-950"
         >
           <div className="mb-3 flex items-center justify-between gap-2" role="tablist" aria-label="Emoji categories">
             {EMOJI_CATEGORIES.map((category) => (
@@ -143,10 +143,10 @@ const EmojiPicker = ({ onSelect, disabled = false }: EmojiPickerProps) => {
                 aria-selected={activeCategory === category.id}
                 aria-controls={`emoji-grid-${category.id}`}
                 onClick={() => handleCategoryChange(category.id)}
-                className={`flex flex-1 items-center justify-center rounded-xl px-2 py-1 text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
+                className={`flex flex-1 items-center justify-center rounded-xl px-2 py-1 text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 ${
                   activeCategory === category.id
-                    ? "bg-blue-600 text-white"
-                    : "bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+                    ? "bg-emerald-600 text-white"
+                    : "bg-emerald-100 text-emerald-700 hover:bg-emerald-200 dark:bg-emerald-900 dark:text-emerald-200 dark:hover:bg-emerald-800"
                 }`}
               >
                 <span aria-hidden="true" className="mr-1 text-lg">
@@ -169,7 +169,7 @@ const EmojiPicker = ({ onSelect, disabled = false }: EmojiPickerProps) => {
                 type="button"
                 role="gridcell"
                 onClick={() => handleSelectEmoji(emoji)}
-                className="flex h-10 w-10 items-center justify-center rounded-xl text-xl transition hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:hover:bg-slate-800"
+                className="flex h-10 w-10 items-center justify-center rounded-xl text-xl transition hover:bg-emerald-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:hover:bg-emerald-900"
                 aria-label={`Insert emoji ${emoji}`}
               >
                 <span aria-hidden="true">{emoji}</span>

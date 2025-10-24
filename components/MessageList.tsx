@@ -25,14 +25,14 @@ const MessageList = ({ messages, currentUser }: MessageListProps) => {
               isCurrentUser ? "items-end" : "items-start"
             }`}
           >
-            <span className="text-xs text-slate-500 dark:text-slate-400">
+            <span className="text-xs text-emerald-600 dark:text-emerald-300">
               {message.user} · {formatTimestamp(message.timestamp)}
             </span>
             <span
               className={`rounded-2xl px-4 py-2 text-sm shadow-sm transition-colors ${
                 isCurrentUser
-                  ? "bg-blue-600 text-white"
-                  : "bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-slate-100"
+                  ? "bg-emerald-600 text-white"
+                  : "bg-emerald-100 text-emerald-950 dark:bg-emerald-900 dark:text-emerald-100"
               }`}
             >
               {message.content}
@@ -41,7 +41,7 @@ const MessageList = ({ messages, currentUser }: MessageListProps) => {
         );
       })}
       {messages.length === 0 ? (
-        <li className="text-center text-sm text-slate-500 dark:text-slate-400">
+        <li className="text-center text-sm text-emerald-600 dark:text-emerald-300">
           Start the conversation by sending a message.
         </li>
       ) : null}

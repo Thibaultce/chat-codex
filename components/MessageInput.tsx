@@ -75,7 +75,7 @@ const MessageInput = ({ onSend, disabled = false }: MessageInputProps) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm dark:border-slate-700 dark:bg-slate-900"
+      className="flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-2 shadow-sm dark:border-emerald-800 dark:bg-emerald-950"
     >
       <input
         type="text"
@@ -87,14 +87,14 @@ const MessageInput = ({ onSend, disabled = false }: MessageInputProps) => {
         onClick={handleSelectionEvent}
         onFocus={handleSelectionEvent}
         placeholder="Write a message..."
-        className="flex-1 rounded-xl bg-transparent px-3 py-2 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-blue-500 dark:text-slate-100"
+        className="flex-1 rounded-xl bg-transparent px-3 py-2 text-sm text-emerald-900 outline-none focus:ring-2 focus:ring-emerald-500 dark:text-emerald-100"
         disabled={disabled}
       />
       <div className="flex items-center gap-2">
         <EmojiPicker onSelect={handleEmojiSelect} disabled={disabled} />
         <button
           type="submit"
-          className="rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
           disabled={disabled}
         >
           Send
