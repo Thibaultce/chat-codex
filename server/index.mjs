@@ -61,6 +61,10 @@ io.on("connection", (socket) => {
       ack({ status: "ok" });
     }
   });
+
+  socket.on("clear_chat", () => {
+    io.emit("chat_cleared");
+  });
 });
 
 server.listen(PORT, () => {

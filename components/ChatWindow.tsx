@@ -25,15 +25,18 @@ const ChatWindow = () => {
     const handleDisconnect = () => setStatus("disconnected");
     const handleMessage = (message: ChatMessage) =>
       setMessages((previous) => [...previous, message]);
+    const handleCleared = () => setMessages([]);
 
     socket.on("connect", handleConnect);
     socket.on("disconnect", handleDisconnect);
     socket.on("chat_message", handleMessage);
+    socket.on("chat_cleared", handleCleared);
 
     return () => {
       socket.off("connect", handleConnect);
       socket.off("disconnect", handleDisconnect);
       socket.off("chat_message", handleMessage);
+      socket.off("chat_cleared", handleCleared);
     };
   }, []);
 
@@ -62,6 +65,12 @@ const ChatWindow = () => {
     socket.emit("chat_message", payload);
   };
 
+  const handleClear = () => {
+    const socket = getSocket();
+    socket.emit("clear_chat");
+    setMessages([]);
+  };
+
   return (
     <div className="flex h-full flex-col gap-6 rounded-3xl border border-emerald-200 bg-gradient-to-br from-white via-emerald-50 to-emerald-100 p-6 shadow-lg dark:border-emerald-800 dark:from-emerald-950 dark:via-emerald-950 dark:to-emerald-950">
       <header className="flex flex-wrap items-center justify-between gap-3">
@@ -73,14 +82,24 @@ const ChatWindow = () => {
             Powered by Next.js, Express, and Socket.IO
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <span
-            className={`h-2.5 w-2.5 rounded-full ${statusBadge}`}
-            aria-hidden
-          />
-          <span className="text-sm font-medium capitalize text-emerald-700 dark:text-emerald-200">
-            {status}
-          </span>
+        <div className="flex flex-wrap items-center gap-3">
+          <button
+            type="button"
+            onClick={handleClear}
+            disabled={!messages.length || status !== "connected"}
+            className="rounded-2xl border border-emerald-200 bg-white/90 px-4 py-2 text-sm font-medium text-emerald-900 shadow-sm transition hover:bg-emerald-100 disabled:cursor-not-allowed disabled:opacity-60 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-100 dark:hover:bg-emerald-900"
+          >
+            Clear chat
+          </button>
+          <div className="flex items-center gap-2">
+            <span
+              className={`h-2.5 w-2.5 rounded-full ${statusBadge}`}
+              aria-hidden
+            />
+            <span className="text-sm font-medium capitalize text-emerald-700 dark:text-emerald-200">
+              {status}
+            </span>
+          </div>
         </div>
       </header>
 
